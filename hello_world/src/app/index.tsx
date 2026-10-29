@@ -1,7 +1,16 @@
-import {Text, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
+import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const nomeCorso = "Sviluppo App con React Native";
 const anno= 2026;
+
+const os = Platform.OS === 'ios' ? 'iOS' : Platform.OS === 'android' ? 'Android' : 'Web';
+
+const argomenti = [
+  {id: 1, titolo: 'JavaScript moderno', completato: true},
+  {id: 2, titolo: 'Componenti e stato', completato: false},
+  {id: 3, titolo: 'Layout con flexbox', completato: false},
+  {id: 4, titolo: 'Navigazione tra schermate', completato: false}
+]
 
 export default function HomeScreen(){ // Funzione principale da visualizzare
   return (
@@ -12,6 +21,21 @@ export default function HomeScreen(){ // Funzione principale da visualizzare
       <ScrollView> 
         <Text style={styles.titolo}>Hello World</Text>
         <Text style={styles.sottotitolo}>{nomeCorso} - {anno}</Text>
+        <View style={styles.riquadro}>
+          <Text style={styles.testo}>App in esecuzione su: {os}</Text>
+        </View>
+
+        <Text style={styles.statuscorsi}>Programma del corso:</Text>
+
+        {argomenti.map((argomento) => (
+          <Text key={argomento.id} style={styles.statuscorsi}>
+            {argomento.titolo}{' '}
+            <Text style={argomento.completato ? styles.completato : styles.nonCompletato}>
+              {argomento.completato ? '[Completato]' : '[Non Completato]'}
+            </Text>
+          </Text>
+        ))}
+        
       </ScrollView>
     </SafeAreaView>
   );
@@ -29,5 +53,31 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#555555',
     textAlign: 'center',
-  }
+  },
+  testo:{
+    fontSize: 16,
+    color: '#222222',
+  },
+  riquadro:{
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 16,
+    gap: 4,
+    marginVertical: 12, 
+    borderColor: '#222222',
+    borderWidth: 1,
+  },
+  completato: {
+    color: '#157d1c',
+    fontWeight: 'bold',
+  },
+  nonCompletato: {
+    color: '#cc1919',
+    fontWeight: 'bold',
+  },
+  statuscorsi:{
+    fontSize: 16,
+    color: '#222222',
+    marginLeft: 10,
+  },
 });
